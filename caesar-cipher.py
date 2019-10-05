@@ -1,27 +1,38 @@
-# shifting the character
-def shifting(character, n):
+# Shifting the character based on n
+def shifting(character, n, options):
 	alphabet = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z']
 	character = character.upper()
-	if character in alphabet:
-		index = (alphabet.index(character)+n) % 26
-		return alphabet[index]
+	if (options == "encrypt"):
+		if character in alphabet:
+			index = (alphabet.index(character)+n) % 26
+			return alphabet[index]
+		else:
+			return False
+	elif (options == "decrypt"):
+		if character in alphabet:
+			index = (alphabet.index(character)-n) % 26
+			return alphabet[index]
+		else:
+			return False
 	else:
 		return False
 
-# encrypt the plaintext to generate ciphertext using shifting function
-def encrypt(plaintext, n):
-	ciphertext = ''
-	for character in plaintext:
-		ciphertext += shifting(character, n)
-	return ciphertext
+# Main function to encrypt the plaintext or decrypt the ciphertext, just use options "encrypt" or "decrypt"
+def caesar(text, n, options):
+	text = text.replace(" ", "")
+	result = ''
+	for character in text:
+		result += shifting(character, n, options)
+	return result
 
 
+plaintext = "this is plaintext"
+n = 5
 
-plaintext = input('Enter plaintext : ')
-n = input('How many n shifting : ')
+# Encrypt the plaintext using option "encrypt"
+ciphertext = caesar(plaintext, n, "encrypt")
+print(ciphertext)
 
-if (isinstance(n, int)):
-	ciphertext = encrypt(plaintext, n)
-	print(ciphertext)
-else:
-	print('n must be integer')
+# Decrypt the ciphertext using option "decrypt"
+plaintext = caesar(ciphertext, n, "decrypt")
+print(plaintext)
