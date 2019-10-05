@@ -25,6 +25,7 @@ def findIndex(character):
 		for j in range(len(square[i])):
 			if (square[i][j] == character):
 				return str(i+1)+str(j+1)
+	return " "
 
 # Function to get character from polybius square
 def findCharacter(row, column):
@@ -37,35 +38,39 @@ def findCharacter(row, column):
 		else:
 			return " "
 	else:
-		return "Wrong index format"
+		return " "
 
+# Function to enrypt plaintext
+def encrypt(plaintext):
+	plaintext = plaintext.replace(" ", "")
+	ciphertext = ""
+	for character in plaintext:
+		ciphertext += findIndex(character)
+	return ciphertext
 
-# Main function to encrypt plaintext or decrypt ciphertext
-def polybius(text, options):
-	text = text.replace(" ", "")
-	result = ""
-	if (options == "encrypt"):
-		for character in text:
-			result += findIndex(character)
-	elif(options == "decrypt"):
-		if (len(text) % 2 != 0):
-			result = "Wrong ciphertext format"
-		else:
-			text = split(text, 2)
-			for index in text:
+# Function to decrypt ciphertext
+def decrypt(ciphertext):
+	ciphertext = ciphertext.replace(" ", "")
+	plaintext = ""
+	if (len(ciphertext) % 2 == 0):
+		ciphertext = split(ciphertext, 2)
+		for index in ciphertext:
+			if (isInteger(index)):
 				row = int(index[0])-1
 				column = int(index[1])-1
-				result += findCharacter(row, column)
+				plaintext += findCharacter(row, column)
+			else:
+				plaintext += " "
 	else:
-		result = "Wrong options"
-	return result
+		return "Unrecognized ciphertext format"
+	return plaintext
 
 
 # Main program
 plaintext = "this is plaintext"
 
-ciphertext = polybius(plaintext, "encrypt")
+ciphertext = encrypt(plaintext)
 print(ciphertext)
 
-plaintext = polybius(ciphertext, "decrypt")
+plaintext = decrypt(ciphertext)
 print(plaintext)
