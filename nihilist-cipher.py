@@ -107,9 +107,10 @@ def decrypt(keyword, ciphertext, key):
 		if (isInteger(ciphertext[i]) and isInteger(key[i])):
 			indexCiphertext = int(ciphertext[i])
 			indexKey = int(key[i])
-			if (indexCiphertext < 10):
-				indexCiphertext += 100
-			indexPlaintext.append(str(indexCiphertext - indexKey))
+			index = indexCiphertext - indexKey
+			if (index < 0):
+				index = abs(index)+indexCiphertext
+			indexPlaintext.append(str(index))
 
 	plaintext = ""
 	for index in indexPlaintext:
